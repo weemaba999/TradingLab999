@@ -1,0 +1,35 @@
+{
+    "_comment": "Copy to data/config.json and fill in your values",
+
+    "IBKR": {
+        "HOST": "127.0.0.1",
+        "PORT": 4002,
+        "CLIENT_ID": 1,
+        "TRADING_MODE": "paper"
+    },
+
+    "KRAKEN": {
+        "API_KEY": "your-kraken-api-key",
+        "PRIVATE_KEY": "your-kraken-private-key"
+    },
+
+    "DATABASE": {
+        "URL": "postgresql://trading:password@localhost:5432/tradinglab"
+    },
+
+    "REDIS": {
+        "URL": "redis://localhost:6379/0"
+    },
+
+    "TELEGRAM": {
+        "BOT_TOKEN": "your-telegram-bot-token",
+        "CHAT_ID": "your-chat-id"
+    },
+
+    "TRADING": {
+        "DRY_RUN": true,
+        "INITIAL_CAPITAL": 10000,
+        "MAX_POSITIONS": 7,
+        "CYCLE_INTERVAL_SECONDS": 300
+    }
+}

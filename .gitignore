@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .env
-data/
+/data/
+!tradinglab/data/examples/
 logs/
 .pytest_cache/

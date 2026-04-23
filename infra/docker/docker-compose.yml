@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  trading-bot:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    container_name: tradinglab
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/app
+      - TZ=Europe/Brussels
+    volumes:
+      - ../../data:/app/data
+      - ../../logs:/app/logs
+    depends_on:
+      - redis
+      - timescaledb
+    networks:
+      - tradinglab
+
+  redis:
+    image: redis:7-alpine
+    container_name: tradinglab-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - tradinglab
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg16
+    container_name: tradinglab-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: trading
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: tradinglab
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - tradinglab
+
+  ib-gateway:
+    image: ghcr.io/gnzsnz/ib-gateway:stable
+    container_name: tradinglab-ibgw
+    restart: unless-stopped
+    ports:
+      - "4002:4002"
+    environment:
+      TWS_USERID: ${IBKR_USER}
+      TWS_PASSWORD: ${IBKR_PASS}
+      TRADING_MODE: paper
+    networks:
+      - tradinglab
+
+volumes:
+  redis-data:
+  db-data:
+
+networks:
+  tradinglab:
+    driver: bridge
