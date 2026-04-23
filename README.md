@@ -35,6 +35,8 @@ The system runs 24/7 on a Proxmox cluster, monitors markets in real-time, and se
 ---
 
 ## The Numbers
+
+```
 ┌─────────────────────────────────────────────────────────────┐
 │                    BACKTEST RESULTS                         │
 │                  (2 years, 41 tickers)                      │
@@ -51,12 +53,15 @@ The system runs 24/7 on a Proxmox cluster, monitors markets in real-time, and se
 │  └── Outperformance                          +233.2%        │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
+```
 
 *Past performance does not guarantee future results. These are backtested results with realistic fees, slippage, and tax costs included.*
 
 ---
 
 ## Architecture
+
+```
                       ┌──────────────────────┐
                       │    Telegram Alerts    │
                       │  🟢 BUY  💰 SELL     │
@@ -92,6 +97,7 @@ The system runs 24/7 on a Proxmox cluster, monitors markets in real-time, and se
 │  14 tabs, real-time   │
 │  regime, P&L, costs   │
 └──────────────────────┘
+```
 
 ---
 
@@ -118,9 +124,12 @@ Three independent signals vote:
 ### 📊 Regime-Aware Everything
 
 The system classifies market conditions and adapts its entire behavior:
+
+```
 BULL  (SPY > EMA130)  →  Full trading, momentum entries
 NEU   (SPY ≈ EMA130)  →  Selective, tighter stops
 BEAR  (SPY < EMA130)  →  Cash or minimal exposure
+```
 
 For crypto, regime detection uses BTC vs EMA200 + the Fear & Greed Index. The system discovered that **F&G < 25 is the only zone where mean-reversion works** — everything above that loses money. In BULL regime, F&G is always > 25, so the filter disables itself. The system figured this out from 560 signals, not from theory.
 
@@ -155,6 +164,8 @@ The ETF instrument selection alone saves **€4,600/year** at 1,000 round-trips.
 ## Crypto Module
 
 The crypto module trades independently on Kraken with its own regime detection and strategy:
+
+```
 ┌────────────────────────────────────────────────────────┐
 │ CRYPTO STRATEGY: BOUNCE v4                             │
 │                                                        │
@@ -179,6 +190,7 @@ The crypto module trades independently on Kraken with its own regime detection a
 │           DOGE, SOL, BTC, ETH                           │
 │ (Ranked by 2-year per-pair backtest performance)       │
 └────────────────────────────────────────────────────────┘
+```
 
 What the backtest revealed:
 - **BOUNCE is the only profitable strategy in BEAR markets** (+€306 net vs BTC B&H -€3,002)
@@ -215,6 +227,8 @@ A custom-built 14-tab dashboard provides full operational visibility:
 ## Infrastructure
 
 Self-hosted on a two-node Proxmox cluster:
+
+```
 ┌─ pve1 (192.168.1.20) ──────────────────────────────┐
 │                                                      │
 │  LXC 101: Trading Stack (bot + dashboard + Redis)    │
@@ -235,6 +249,7 @@ Self-hosted on a two-node Proxmox cluster:
 │                                                      │
 └─ UniFi Network ─────────────────────────────────────┘
 UDM Pro, managed switches, WiFi 6
+```
 
 ---
 
@@ -287,11 +302,14 @@ This system was built over ~3 months by a single developer, with AI assistance (
 ---
 
 ## Roadmap to Live
+
+```
 Phase 1: Safety Systems (circuit breaker, kill switch, VIX stop)
 Phase 2: Infrastructure (staging vs live separation, DB split)
 Phase 3: Shadow Mode (live account, suggestions only)
 Phase 4: Soft Launch (50% sizing, 30 days monitoring)
 Phase 5: Full Live (if Phase 4 passes all gates)
+```
 
 24 steps. ~50 hours of work. No shortcuts on safety.
 
